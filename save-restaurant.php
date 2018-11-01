@@ -13,6 +13,7 @@ $nm = $_POST ['nm'];
 $addr = $_POST ['addr'];
 $phone = $_POST ['phone'];
 $rst_tp = $_POST ['rst_tp'];
+$id = $_POST['id'];
 
 // validate each input
 $ok = true;
@@ -32,34 +33,50 @@ if (empty($phone))
     echo "Phone is Required. <br />";
     $ok = false;
 }
+if ($rst_tp == '-Select-')
+{
+    echo "Type is Required. </br>";
+    $ok = false;
+}
 
 // connect to the database with server, username, password, dbname
 // only save if no validation errors
 if ($ok)
 {
     // PDO : PHP Database Object (regardless the database, we can use any type database system
-    //$db = new PDO('mysql:host=localhost:511;dbname=barrieeats', 'root', 'dirtn');
-    $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+    $db = new PDO('mysql:host=localhost:511;dbname=barrieeats', 'root', 'dirtn');
+    //$db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
 
-
-// fetch the data from the db
-    $sql = "SELECT * FROM restaurants";
-    $cmd = $db->prepare($sql);
-    $cmd->execute();
-    $restaurants = $cmd->fetchAll();
+    if (empty($id))
+    {
+        $sql = "INSERT INTO restaurants (nm, addr, phone, rst_tp) VALUES (:nm, :addr, :phone, :rst_tp)";
+    }
+    else
+    {
+        $sql = "UPDATE restaurants SET name = :name, addr = :addr, phone = :phone, rst_tp = :rst_tp WHERE id = :id";
+    }
     // set up and execute an INSERT command
-    $sql = "INSERT INTO restaurants (nm, addr, phone, rst_tp) VALUES (:nm, :addr, :phone, :rst_tp)";
+
     $cmd = $db->prepare($sql);
     $cmd->bindParam(':nm', $nm, PDO::PARAM_STR, 60);
     $cmd->bindParam(':addr', $addr, PDO::PARAM_STR, 120);
     $cmd->bindParam(':phone', $phone, PDO::PARAM_STR, 15);
     $cmd->bindParam(':rst_tp', $rst_tp, PDO::PARAM_STR, 50);
+
+    if (!empty($id)) // id가 있다면 cmd에 id도 bindParam으로 추가함
+    {
+        $cmd->bindParam('id', $id, PDO::PARAM_INT);
+    }
     $cmd->execute();
 
     // disconnect!!! after inserting, disconnect from the database
     $db = null;
+
+    header('location:restaurants.php');
+
+    echo "Restaurant Saved";
 }
-echo "Restaurant Saved";
+
 ?>
 
 </body>

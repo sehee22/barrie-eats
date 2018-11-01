@@ -9,8 +9,8 @@
 
 <?php
 // connection
-//$db = new PDO ('mysql:host=localhost:511;dbname=barrieeats', 'root', 'dirtn');
-$db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+$db = new PDO ('mysql:host=localhost:511;dbname=barrieeats', 'root', 'dirtn');
+//$db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
 
 // set up query
 $sql = "SELECT nm FROM restaurants order by nm";
