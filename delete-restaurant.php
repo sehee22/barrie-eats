@@ -6,6 +6,14 @@
 </head>
 <body>
 <?php
+// auto check
+session_start();
+if (empty($_SESSION['userID']))
+{
+    header('location:login.php');
+    exit();
+}
+
 // GET selected restaurantID
 $id = $_GET['id'];
 

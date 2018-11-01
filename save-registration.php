@@ -41,6 +41,7 @@ if ($ok)
 
     // set up and execute the insert
     $sql = "INSERT INTO users (username, password) VALUES(:username, :password);"; // [:username] -> parameter
+    // test@test.com / Test1234
     $cmd = $db->prepare($sql);
     $cmd ->bindParam(':username', $username, PDO::PARAM_STR, 50);
     $cmd ->bindParam(':password', $hashedpassword, PDO::PARAM_STR, 255);
@@ -50,6 +51,7 @@ if ($ok)
     $db = null;
 
     // redirect to login
+    header('location:login.php');
 }
 ?>
 </body>

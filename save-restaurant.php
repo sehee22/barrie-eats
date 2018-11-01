@@ -8,6 +8,14 @@
 
 <!-- html은 그냥 보여주기만 할 뿐, 실질적인 데이터 처리는 php -->
 <?php
+// auto check
+session_start();
+if (empty($_SESSION['userID']))
+{
+    header('location:login.php');
+    exit();
+}
+
 // introduce variables to store the form input variables
 $nm = $_POST ['nm'];
 $addr = $_POST ['addr'];
