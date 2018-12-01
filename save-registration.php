@@ -31,13 +31,41 @@ if ($password != $confirm)
     $ok = false;
 }
 
+// check recaptcha
+$secret = "6Lf_OX4UAAAAAD8ahyZpktC_40jnBm0WSzqWMqyJ";
+$response = $_POST['g-recaptcha-response'];
+
+// make hidden request to google using the PHP CURL library
+$request = curl_init();
+curl_setopt($request, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+curl_setopt($request, CURLOPT_RETURNTRANSFER, true); // 서버로부터 전달 받을 값
+curl_setopt($request, CURLOPT_POST, true);
+
+// create an array to pass the request value to google
+$postData = array();
+$postData['secret'] = $secret;
+$postData['response'] = $response;
+curl_setopt($request, CURLOPT_POSTFIELDS, $postData);
+
+// execute the api call and check the response
+$googldResponse = curl_exec($request);
+curl_close($request);
+
+$googldResponse = json_decode($googldResponse, true);
+if ($googldResponse['success'] != 1)
+{
+    echo "Are you human? <br />";
+    $ok = false;
+}
+
+
 if ($ok)
 {
     // hash the password
     $hashedpassword = password_hash($password, PASSWORD_DEFAULT);
 
     // connect
-    $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+    require('db.php');
 
     // set up and execute the insert
     $sql = "INSERT INTO users (username, password) VALUES(:username, :password);"; // [:username] -> parameter
@@ -54,5 +82,5 @@ if ($ok)
     header('location:login.php');
 }
 ?>
-</body>
-</html>
+
+<?php require('footer.php'); ?>

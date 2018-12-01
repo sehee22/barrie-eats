@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>save restaurant</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-</head>
-<body>
-
 <?php
+
+$title = "Save a New Review";
+require('header.php');
+
+//auth check
+require('auth.php');
+
+
 // introduce variables to store the form input variables
 $username = $_POST ['username'];
 $rating = $_POST ['rating'];
@@ -43,7 +42,7 @@ if ($restaurant == '-Select-')
 if ($ok)
 {
     // PDO : PHP Database Object (regardless the database, we can use any type database system
-    $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+    require('db.php');
 
     if (empty($id))
     {
@@ -71,11 +70,9 @@ if ($ok)
     $db = null;
 
 
-    echo "Reviews Saved";
     header('location:reviews.php');
 }
 
 ?>
 
-</body>
-</html>
+<?php require('footer.php'); ?>

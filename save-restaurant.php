@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Save Restaurant</title>
-</head>
-<body>
-
-<!-- html은 그냥 보여주기만 할 뿐, 실질적인 데이터 처리는 php -->
 <?php
-// auto check
-session_start();
-if (empty($_SESSION['userID']))
-{
-    header('location:login.php');
-    exit();
-}
+require('header.php');
+require('auth.php');
 
 // introduce variables to store the form input variables
 $nm = $_POST ['nm'];
@@ -22,6 +8,7 @@ $addr = $_POST ['addr'];
 $phone = $_POST ['phone'];
 $rst_tp = $_POST ['rst_tp'];
 $id = $_POST['id'];
+$logo = null;
 
 // validate each input
 $ok = true;
@@ -46,22 +33,50 @@ if ($rst_tp == '-Select-')
     echo "Type is Required. </br>";
     $ok = false;
 }
+// check and validate logo upload
+if (isset($_FILES['logo']))
+{
+    $logoFile = $_FILES['logo'];
 
+    if ($logoFile['size'] > 0)
+    {
+        // generate unique file name
+        $logo = session_id() . "-" . $logoFile['name'];
+
+        // check file type
+        $fileType = null;
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $fileType = finfo_file($finfo, $logoFile['tmp_name']);
+
+        // allow only jpeg & png
+        if (($fileType != "image/jpeg") && ($fileType != "image/png"))
+        {
+            echo 'Please upload a valid JPG or PNG logo<br />';
+            $ok = false;
+        }
+        else
+        {
+            // save the file
+            move_uploaded_file($logoFile['tmp_name'], "img/{$logo}");
+        }
+    }
+
+}
 // connect to the database with server, username, password, dbname
 // only save if no validation errors
 if ($ok)
 {
     // PDO : PHP Database Object (regardless the database, we can use any type database system
-    $db = new PDO('mysql:host=localhost:511;dbname=barrieeats', 'root', 'dirtn');
+    require('db.php');
     //$db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
 
     if (empty($id))
     {
-        $sql = "INSERT INTO restaurants (nm, addr, phone, rst_tp) VALUES (:nm, :addr, :phone, :rst_tp)";
+        $sql = "INSERT INTO restaurants (nm, addr, phone, rst_tp, logo) VALUES (:nm, :addr, :phone, :rst_tp, :logo)";
     }
     else
     {
-        $sql = "UPDATE restaurants SET name = :name, addr = :addr, phone = :phone, rst_tp = :rst_tp WHERE id = :id";
+        $sql = "UPDATE restaurants SET nm = :nm, addr = :addr, phone = :phone, rst_tp = :rst_tp, logo = :logo WHERE id = :id";
     }
     // set up and execute an INSERT command
 
@@ -70,6 +85,7 @@ if ($ok)
     $cmd->bindParam(':addr', $addr, PDO::PARAM_STR, 120);
     $cmd->bindParam(':phone', $phone, PDO::PARAM_STR, 15);
     $cmd->bindParam(':rst_tp', $rst_tp, PDO::PARAM_STR, 50);
+    $cmd->bindParam(':logo', $logo, PDO::PARAM_STR, 100);
 
     if (!empty($id)) // id가 있다면 cmd에 id도 bindParam으로 추가함
     {
@@ -81,11 +97,8 @@ if ($ok)
     $db = null;
 
     header('location:restaurants.php');
-
-    echo "Restaurant Saved";
 }
 
 ?>
 
-</body>
-</html>
+<?php require('footer.php'); ?>
