@@ -64,7 +64,7 @@ if (!empty($_GET['id']))
             <option>-Select-</option>
             <?php
             // connect
-            $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+            $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=', '', '');
 
             // set up query
             $sql = "select rst_tp from restauranttypes order by rst_tp";
@@ -110,7 +110,7 @@ if (!empty($_GET['id']))
         // connect
 
         if (isset($id)) {
-            $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+            $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=', '', '');
             $sql = "SELECT * FROM reviews WHERE restaurant = :nm";
             $cmd = $db->prepare($sql);
             $cmd->bindParam(':nm', $nm, PDO::PARAM_STR, 60);
@@ -151,7 +151,7 @@ if (!empty($_GET['id']))
 
 
 
-<div class="fb-comments" data-href="http://aws.computerstudi.es/~gc200389459/barrie-eats/restaurant.php" data-width="100" data-numposts="5"></div>
+<div class="fb-comments" data-href="http://aws.computerstudi.es/~//.php" data-width="100" data-numposts="5"></div>
 
 
 
