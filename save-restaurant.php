@@ -68,7 +68,7 @@ if ($ok)
 {
     // PDO : PHP Database Object (regardless the database, we can use any type database system
     require('db.php');
-    //$db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+    //$db = new PDO ('mysql:host=aws.computerstudi.es;dbname=', '', '');
 
     if (empty($id))
     {
