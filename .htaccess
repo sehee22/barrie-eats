@@ -4,6 +4,6 @@ RewriteRule ^404/?$ /lab2/404.php [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^ http://aws.computerstudi.es/~gc200389459/barrie-eats/404.php [L,R]
+RewriteRule ^ http://aws.computerstudi.es/~//404.php [L,R]
 
-ErrorDocument 404 http://aws.computerstudi.es/~gc200389459/barrie-eats/404.php
+ErrorDocument 404 http://aws.computerstudi.es/~//404.php
