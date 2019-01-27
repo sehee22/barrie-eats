@@ -3,7 +3,7 @@
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+$db = new PDO ('mysql:host=aws.computerstudi.es;dbname=', '', '');
 
 $sql = "SELECT userId, password FROM users WHERE username = :username";
 
