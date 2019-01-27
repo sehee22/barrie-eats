@@ -17,7 +17,7 @@
         <label for="mm" class="col-md-1">Rating: </label>
         <?php
         // connect
-        $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+        $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=', '', '');
 
         // set up query
         $sql = "select rating from rating;";
@@ -52,7 +52,7 @@
         <?php
         // connect
         require('db.php');
-        // $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=gc200389459', 'gc200389459', '-Z69zNNigW');
+        // $db = new PDO ('mysql:host=aws.computerstudi.es;dbname=', '', '');
 
         // set up query
         $sql = "SELECT * FROM restaurants order by nm";
